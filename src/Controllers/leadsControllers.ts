@@ -1,7 +1,7 @@
 import { Handler } from "express";
 import { prisma } from "../../database/index";
 import createLeadRequestSchemas, { GetLeadRequestSchemas } from "./schemas/leadsRequestSchemas";
-import type { Prisma, $Enums } from "@prisma/client";
+import { type Prisma, type $Enums, leadCampaignStatus } from "@prisma/client";
 
 export class LeadsController {
  index : Handler = async (_req, res, next) => {
@@ -78,6 +78,15 @@ export class LeadsController {
         return
       }
       const body = createLeadRequestSchemas.parse(req.body)
+      
+      const lead = await prisma.lead.findUnique({
+        where: { id }
+      })
+      if (lead === null) {
+        res.status(404).json({ message: "Lead não encontrado" })
+        return
+      }
+
       const data: Prisma.LeadUpdateInput = {
         name: body.name,
         email: body.email,
@@ -85,6 +94,25 @@ export class LeadsController {
       }
       if (body.status !== undefined) {
         data.status = body.status as $Enums.LeadStatus
+      }
+
+      if(lead.status === "new" && body.status !== undefined && body.status !== "contacted"){
+        res.status(400).json(
+          { message: "Um lead com status 'new' deve ser alterado para 'contacted' antes de outros status." }
+        )
+        return
+      }
+
+      if(body.status && body.status === "archived"){
+        const now = new Date()
+        const diffTime = Math.abs(now.getTime() - lead.createdAt.getTime())
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+        if(diffDays < 30){
+          res.status(400).json(
+            { message: "Um lead com status 'archived' deve ter sido criado há pelo menos 30 dias." }
+          )
+          return
+        }
       }
       const updatedLead = await prisma.lead.update({
         where: { id },
