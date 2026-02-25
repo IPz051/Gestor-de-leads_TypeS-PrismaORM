@@ -1,0 +1,1 @@
+{"version":3,"file":"groupsLeadsController.d.ts","sourceRoot":"","sources":["../../../../src/Controllers/groupsLeadsControllers/groupsLeadsController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,SAAS,CAAC;AAMlC,qBAAa,qBAAqB;IAC9B,QAAQ,EAAE,OAAO,CA6ChB;IACD,QAAQ,EAAE,OAAO,CAmBhB;IACD,WAAW,EAAE,OAAO,CAmBnB;CACJ"}

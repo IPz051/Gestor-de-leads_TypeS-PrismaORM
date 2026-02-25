@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Group {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  leads       Lead[]  @relation("GroupLeads")
+}
+
+model Lead {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(255)
+  email         String         @unique @db.VarChar(255)
+  phone         String?        @db.VarChar(20)
+  status        LeadStatus     @default(new)
+  groups        Group[]        @relation("GroupLeads")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  campaigns     CampaignLead[]
+}
+
+enum LeadStatus {
+  new
+  contacted
+  converted
+  qualified
+  unresponsive
+  disqualified
+  archived
+}
+
+model Campaign {
+  id            Int            @id @default(autoincrement())
+  name          String         @unique
+  description   String?
+  startDate     DateTime
+  endDate       DateTime?
+  leads        CampaignLead[]
+}
+
+model CampaignLead {
+  leadInt     Int
+  campaignInt Int
+  status      leadCampaignStatus @default(new)
+  campaign    Campaign @relation(fields: [campaignInt], references: [id])
+  lead        Lead     @relation(fields: [leadInt], references: [id])
+
+  @@id([leadInt, campaignInt])
+}
+
+enum leadCampaignStatus {
+  new
+  engaged
+  followUp_Scheduled
+  followUp_Completed
+  contacted
+  converted
+  qualified
+  unresponsive
+  disqualified
+  re_engaged
+  opted_out
+}

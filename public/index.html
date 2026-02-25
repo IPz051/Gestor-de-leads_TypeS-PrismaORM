@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Leads</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column p-3">
+        <a href="#" class="sidebar-brand text-decoration-none d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <i class="fas fa-chart-line me-2"></i>
+            <span class="fs-4">LeadManager</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" onclick="showView('dashboard')">
+                    <i class="fas fa-home me-2"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" onclick="showView('leads')">
+                    <i class="fas fa-users me-2"></i> Leads
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" onclick="showView('groups')">
+                    <i class="fas fa-layer-group me-2"></i> Grupos
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" onclick="showView('campaigns')">
+                    <i class="fas fa-bullhorn me-2"></i> Campanhas
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view-section">
+            <h2 class="mb-4">Dashboard</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total de Leads</h5>
+                            <p class="card-text display-4" id="total-leads-count">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Grupos Ativos</h5>
+                            <p class="card-text display-4" id="total-groups-count">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Campanhas</h5>
+                            <p class="card-text display-4" id="total-campaigns-count">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leads View -->
+        <div id="leads-view" class="view-section d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Gerenciar Leads</h2>
+                <button class="btn btn-primary" onclick="openLeadModal()">
+                    <i class="fas fa-plus me-2"></i> Novo Lead
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leads-table-body">
+                                <!-- Leads renderizados via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups View -->
+        <div id="groups-view" class="view-section d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Gerenciar Grupos</h2>
+                <button class="btn btn-primary" onclick="openGroupModal()">
+                    <i class="fas fa-plus me-2"></i> Novo Grupo
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="groups-table-body">
+                                <!-- Grupos renderizados via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaigns View -->
+        <div id="campaigns-view" class="view-section d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Gerenciar Campanhas</h2>
+                <button class="btn btn-primary" onclick="openCampaignModal()">
+                    <i class="fas fa-plus me-2"></i> Nova Campanha
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Início</th>
+                                    <th>Fim</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="campaigns-table-body">
+                                <!-- Campanhas renderizadas via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Lead Modal -->
+    <div class="modal fade" id="leadModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="leadModalTitle">Novo Lead</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="leadForm">
+                        <input type="hidden" id="leadId">
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="leadName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="leadEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" id="leadPhone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="leadStatus">
+                                <option value="New">Novo</option>
+                                <option value="Contacted">Contatado</option>
+                                <option value="Qualified">Qualificado</option>
+                                <option value="Converted">Convertido</option>
+                                <option value="Unresponsive">Sem Resposta</option>
+                                <option value="Disqualified">Desqualificado</option>
+                                <option value="Archived">Arquivado</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveLead()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Modal -->
+    <div class="modal fade" id="groupModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="groupModalTitle">Novo Grupo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="groupForm">
+                        <input type="hidden" id="groupId">
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="groupName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="groupDescription"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveGroup()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campaign Modal -->
+    <div class="modal fade" id="campaignModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="campaignModalTitle">Nova Campanha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="campaignForm">
+                        <input type="hidden" id="campaignId">
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="campaignName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="campaignDescription"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data de Início</label>
+                            <input type="date" class="form-control" id="campaignStartDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data de Fim</label>
+                            <input type="date" class="form-control" id="campaignEndDate">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveCampaign()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Leads Modal -->
+    <div class="modal fade" id="groupLeadsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="groupLeadsTitle">Gerenciar Leads do Grupo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="manageGroupId">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6>Adicionar Lead</h6>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="groupAddLeadId" placeholder="ID do Lead">
+                                <button class="btn btn-success" onclick="addLeadToGroup()">Adicionar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <h6>Leads no Grupo</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="groupLeadsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campaign Leads Modal -->
+    <div class="modal fade" id="campaignLeadsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="campaignLeadsTitle">Gerenciar Leads da Campanha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="manageCampaignId">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6>Adicionar Lead</h6>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="campaignAddLeadId" placeholder="ID do Lead">
+                                <select class="form-select" id="campaignAddLeadStatus">
+                                    <option value="new">Novo</option>
+                                    <option value="engaged">Engajado</option>
+                                    <option value="followUp_Scheduled">Agendado</option>
+                                    <option value="followUp_Completed">Completado</option>
+                                    <option value="contacted">Contatado</option>
+                                    <option value="converted">Convertido</option>
+                                    <option value="qualified">Qualificado</option>
+                                    <option value="unresponsive">Sem Resposta</option>
+                                    <option value="disqualified">Desqualificado</option>
+                                    <option value="re_engaged">Reengajado</option>
+                                    <option value="opted_out">Cancelou</option>
+                                </select>
+                                <button class="btn btn-success" onclick="addLeadToCampaign()">Adicionar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <h6>Leads na Campanha</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="campaignLeadsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

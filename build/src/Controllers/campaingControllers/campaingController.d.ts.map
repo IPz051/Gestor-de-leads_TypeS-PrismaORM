@@ -1,0 +1,1 @@
+{"version":3,"file":"campaingController.d.ts","sourceRoot":"","sources":["../../../../src/Controllers/campaingControllers/campaingController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,SAAS,CAAA;AAKjC,qBAAa,kBAAkB;IAC3B,KAAK,EAAE,OAAO,CAOb;IACD,MAAM,EAAE,OAAO,CAgBd;IACD,IAAI,EAAE,OAAO,CAuBZ;IACD,MAAM,EAAE,OAAO,CA8Bd;IACD,MAAM,EAAE,OAAO,CAqBd;CACJ"}
