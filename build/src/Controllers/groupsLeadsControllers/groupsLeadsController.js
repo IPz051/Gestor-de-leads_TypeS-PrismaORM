@@ -83,7 +83,7 @@ class GroupsLeadsController {
         });
         this.removeLeads = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const body = groupsRequestSchemas_1.addLeadsToGroupRequestSchemas.parse(req.body);
+                const leadId = Number(req.params['leadId']);
                 const updateGroup = yield database_1.prisma.group.update({
                     where: {
                         id: Number(req.params['groupId'])
@@ -91,7 +91,7 @@ class GroupsLeadsController {
                     data: {
                         leads: {
                             disconnect: {
-                                id: Number(body.leadId)
+                                id: leadId
                             }
                         }
                     }

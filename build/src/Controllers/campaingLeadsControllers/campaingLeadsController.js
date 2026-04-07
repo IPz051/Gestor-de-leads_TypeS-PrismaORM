@@ -43,6 +43,7 @@ class CampaignLeadsController {
                         [sortBy]: orderBy
                     },
                     include: {
+                        groups: true,
                         campaigns: {
                             select: {
                                 campaignInt: true,

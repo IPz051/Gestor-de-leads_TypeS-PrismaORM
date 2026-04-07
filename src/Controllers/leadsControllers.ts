@@ -1,7 +1,7 @@
 import { Handler } from "express";
 import { prisma } from "../../database/index";
 import createLeadRequestSchemas, { GetLeadRequestSchemas } from "./schemas/leadsRequestSchemas";
-import { type Prisma, type $Enums, leadCampaignStatus } from "@prisma/client";
+import { type Prisma, type $Enums } from "@prisma/client";
 
 export class LeadsController {
  index : Handler = async (_req, res, next) => {

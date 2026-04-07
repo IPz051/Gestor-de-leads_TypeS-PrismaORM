@@ -7,11 +7,11 @@ exports.addLeadsToGroupRequestSchemas = exports.updateGroupRequestSchemas = expo
 const zod_1 = __importDefault(require("zod"));
 exports.createGroupRequestSchemas = zod_1.default.object({
     name: zod_1.default.string().min(1),
-    description: zod_1.default.string().min(1).optional(),
+    description: zod_1.default.string().optional(),
 });
 exports.updateGroupRequestSchemas = zod_1.default.object({
     name: zod_1.default.string().min(1).optional(),
-    description: zod_1.default.string().min(1).optional(),
+    description: zod_1.default.string().optional(),
 });
 exports.addLeadsToGroupRequestSchemas = zod_1.default.object({
     leadId: zod_1.default.number().int().min(1),

@@ -35,7 +35,7 @@ exports.GetLeadRequestSchemas = zod_1.default.object({
 const createLeadRequestSchemas = zod_1.default.object({
     name: zod_1.default.string().min(1),
     email: zod_1.default.string(),
-    phone: zod_1.default.string().min(10),
+    phone: zod_1.default.string().optional(),
     status: statusSchema.optional(),
 });
 exports.default = createLeadRequestSchemas;

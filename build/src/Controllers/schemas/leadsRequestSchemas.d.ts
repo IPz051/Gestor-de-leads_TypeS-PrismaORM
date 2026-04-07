@@ -25,7 +25,7 @@ export declare const GetLeadRequestSchemas: z.ZodObject<{
 declare const createLeadRequestSchemas: z.ZodObject<{
     name: z.ZodString;
     email: z.ZodString;
-    phone: z.ZodString;
+    phone: z.ZodOptional<z.ZodString>;
     status: z.ZodOptional<z.ZodPipe<z.ZodPipe<z.ZodString, z.ZodTransform<string, string>>, z.ZodEnum<{
         new: "new";
         contacted: "contacted";

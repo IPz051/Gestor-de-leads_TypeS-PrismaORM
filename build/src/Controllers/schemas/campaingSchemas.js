@@ -7,7 +7,7 @@ exports.updateLeadCampaignRequestSchemas = exports.addLeadCampaignRequestSchemas
 const zod_1 = __importDefault(require("zod"));
 exports.createCampaignRequestSchemas = zod_1.default.object({
     name: zod_1.default.string().min(1),
-    description: zod_1.default.string().min(1).optional(),
+    description: zod_1.default.string().optional(),
     startDate: zod_1.default.coerce.date().refine(date => !isNaN(date.getTime()), {
         message: "Data inválida. Use o formato AAAA-MM-DD (ex: 2024-01-01)."
     }),
@@ -17,7 +17,7 @@ exports.createCampaignRequestSchemas = zod_1.default.object({
 });
 exports.updateCampaignRequestSchemas = zod_1.default.object({
     name: zod_1.default.string().min(1).optional(),
-    description: zod_1.default.string().min(1).optional(),
+    description: zod_1.default.string().optional(),
     startDate: zod_1.default.coerce.date().refine(date => !isNaN(date.getTime()), {
         message: "Data inválida. Use o formato AAAA-MM-DD (ex: 2024-01-01)."
     }).optional(),
