@@ -9,6 +9,9 @@ export default app
 app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
+app.get('/', (_req, res) => {
+  res.redirect('/index.html')
+})
 app.use("/api", router)
 app.use(errorHandler)
 

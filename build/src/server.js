@@ -13,6 +13,9 @@ exports.default = exports.app;
 exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 exports.app.use(express_1.default.static('public'));
+exports.app.get('/', (_req, res) => {
+    res.redirect('/index.html');
+});
 exports.app.use("/api", router_1.default);
 exports.app.use(errorHandler_1.default);
 const PORT = Number(process.env['PORT']) || 3000;

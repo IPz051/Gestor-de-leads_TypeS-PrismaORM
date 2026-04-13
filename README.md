@@ -115,6 +115,7 @@ npm run build
 Observacoes importantes:
 
 - A Vercel ignora `express.static()`; os arquivos da pasta `public/` sao servidos diretamente pela plataforma
+- A rota `/` do Express redireciona para `/index.html`, garantindo que a interface abra corretamente na Vercel
 - `PORT` nao precisa ser configurada na Vercel
 - `NODE_ENV` e gerenciada pela propria Vercel
 - Se voce usar Vercel Postgres, basta copiar a connection string para `DATABASE_URL`
