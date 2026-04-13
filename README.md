@@ -92,6 +92,10 @@ npm run start:prod
 
 Este projeto pode ser publicado na Vercel usando o `src/server.ts` como entrada principal do Express. O arquivo `src/serverless.ts` pode continuar sendo usado para provedores que exigem um handler serverless explicito, mas na Vercel a entrada principal recomendada e o proprio `Express`.
 
+URL publica da aplicacao:
+
+- [gestor-de-leads-type-s-prisma-orm.vercel.app](https://gestor-de-leads-type-s-prisma-orm.vercel.app/)
+
 Arquivos usados:
 
 - `src/server.ts`: entrada do Express na Vercel
