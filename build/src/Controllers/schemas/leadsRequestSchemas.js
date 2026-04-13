@@ -29,7 +29,7 @@ exports.GetLeadRequestSchemas = zod_1.default.object({
     pageSize: zod_1.default.coerce.number().int().positive().optional(),
     name: zod_1.default.string().optional(),
     status: leadStatusSchema.optional(),
-    sortBy: zod_1.default.enum(["name", "status"]).optional(),
+    sortBy: zod_1.default.enum(["id", "name", "status"]).optional(),
     orderBy: zod_1.default.enum(["asc", "desc"]).optional(),
 });
 const createLeadRequestSchemas = zod_1.default.object({

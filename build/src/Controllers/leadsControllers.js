@@ -50,7 +50,7 @@ class LeadsController {
         this.index = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const query = leadsRequestSchemas_1.GetLeadRequestSchemas.parse(_req.query);
-                const { page = 1, pageSize = 10, name, status, sortBy = "name", orderBy = "asc" } = query;
+                const { page = 1, pageSize = 10, name, status, sortBy = "id", orderBy = "asc" } = query;
                 const where = {};
                 if (name)
                     where.name = { contains: name, mode: "insensitive" };

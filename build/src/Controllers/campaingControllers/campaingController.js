@@ -16,7 +16,11 @@ class CampaignController {
     constructor() {
         this.index = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const campaigns = yield database_1.prisma.campaign.findMany();
+                const campaigns = yield database_1.prisma.campaign.findMany({
+                    orderBy: {
+                        id: 'asc'
+                    }
+                });
                 res.json(campaigns);
             }
             catch (err) {

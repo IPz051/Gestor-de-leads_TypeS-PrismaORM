@@ -19,7 +19,7 @@ class GroupsLeadsController {
             try {
                 const groupId = Number(req.params['groupId']);
                 const query = leadsRequestSchemas_1.GetLeadRequestSchemas.parse(req.query);
-                const { page = "1", pageSize = "10", name, status, sortBy = "name", orderBy = "asc" } = query;
+                const { page = "1", pageSize = "10", name, status, sortBy = "id", orderBy = "asc" } = query;
                 const pageNumber = Number(page);
                 const pageSizeNumber = Number(pageSize);
                 const where = {

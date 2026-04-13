@@ -28,7 +28,7 @@ export const GetLeadRequestSchemas = z.object({
   pageSize: z.coerce.number().int().positive().optional(),
   name: z.string().optional(),
   status: leadStatusSchema.optional(),
-  sortBy: z.enum(["name","status"]).optional(),
+  sortBy: z.enum(["id", "name", "status"]).optional(),
   orderBy: z.enum(["asc","desc"]).optional(),
 })
 

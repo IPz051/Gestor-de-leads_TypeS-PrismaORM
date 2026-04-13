@@ -43,6 +43,7 @@ export declare const getCampaignsRequestSchemas: z.ZodObject<{
     }>>;
     sortBy: z.ZodOptional<z.ZodEnum<{
         name: "name";
+        id: "id";
         createdAt: "createdAt";
     }>>;
     orderBy: z.ZodOptional<z.ZodEnum<{

@@ -7,7 +7,7 @@ export class LeadsController {
  index : Handler = async (_req, res, next) => {
     try {
       const query = GetLeadRequestSchemas.parse(_req.query)
-      const { page = 1, pageSize = 10, name, status, sortBy = "name", orderBy = "asc" } = query
+      const { page = 1, pageSize = 10, name, status, sortBy = "id", orderBy = "asc" } = query
 
       const where : Prisma.LeadWhereInput = {}
         if(name) where.name = { contains: name, mode: "insensitive" }

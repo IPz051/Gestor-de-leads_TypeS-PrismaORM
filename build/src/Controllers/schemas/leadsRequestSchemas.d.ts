@@ -15,6 +15,7 @@ export declare const GetLeadRequestSchemas: z.ZodObject<{
     }>>;
     sortBy: z.ZodOptional<z.ZodEnum<{
         name: "name";
+        id: "id";
         status: "status";
     }>>;
     orderBy: z.ZodOptional<z.ZodEnum<{

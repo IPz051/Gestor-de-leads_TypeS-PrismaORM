@@ -6,7 +6,11 @@ import { prisma } from "../../../database";
 export class GroupsController {
     index: Handler = async (_req, res, next) => {
         try {
-            const groups = await prisma.group.findMany()
+            const groups = await prisma.group.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             res.json(groups)
 
         } catch (error) {

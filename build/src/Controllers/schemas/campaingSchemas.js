@@ -43,7 +43,7 @@ exports.getCampaignsRequestSchemas = zod_1.default.object({
     pageSize: zod_1.default.string().min(1).optional(),
     name: zod_1.default.string().min(1).optional(),
     status: exports.leadCampaignStatusSchema.optional(),
-    sortBy: zod_1.default.enum(["name", "createdAt"]).optional(),
+    sortBy: zod_1.default.enum(["id", "name", "createdAt"]).optional(),
     orderBy: zod_1.default.enum(["asc", "desc"]).optional(),
 });
 exports.addLeadCampaignRequestSchemas = zod_1.default.object({

@@ -16,7 +16,11 @@ class GroupsController {
     constructor() {
         this.index = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const groups = yield database_1.prisma.group.findMany();
+                const groups = yield database_1.prisma.group.findMany({
+                    orderBy: {
+                        id: 'asc'
+                    }
+                });
                 res.json(groups);
             }
             catch (error) {

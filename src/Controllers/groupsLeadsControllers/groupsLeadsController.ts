@@ -9,7 +9,7 @@ export class GroupsLeadsController {
         try {
             const groupId = Number(req.params['groupId'])
             const query = GetLeadRequestSchemas.parse(req.query)
-            const { page = "1", pageSize = "10", name, status, sortBy = "name", orderBy = "asc" } = query
+            const { page = "1", pageSize = "10", name, status, sortBy = "id", orderBy = "asc" } = query
     
             const pageNumber = Number(page)
             const pageSizeNumber = Number(pageSize)

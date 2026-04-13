@@ -43,7 +43,7 @@ export const getCampaignsRequestSchemas = z.object({
     pageSize: z.string().min(1).optional(),
     name: z.string().min(1).optional(),
     status: leadCampaignStatusSchema.optional(),
-    sortBy: z.enum(["name", "createdAt"]).optional(),
+    sortBy: z.enum(["id", "name", "createdAt"]).optional(),
     orderBy: z.enum(["asc", "desc"]).optional(),
 })
 

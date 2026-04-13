@@ -18,7 +18,7 @@ class CampaignLeadsController {
             try {
                 const campaignId = Number(_req.params['campaignId']);
                 const query = campaingSchemas_1.getCampaignsRequestSchemas.parse(_req.query);
-                const { page = "1", pageSize = "10", name, status, sortBy = "name", orderBy = "asc" } = query;
+                const { page = "1", pageSize = "10", name, status, sortBy = "id", orderBy = "asc" } = query;
                 const pageNumber = Number(page);
                 const pageSizeNumber = Number(pageSize);
                 const where = {

@@ -1,75 +1,147 @@
 # LEADS - API & Frontend
 
-Este é um sistema completo de gerenciamento de Leads, Grupos e Campanhas, desenvolvido com Node.js, Express, Prisma ORM e PostgreSQL. Inclui uma interface web para interação fácil com todas as funcionalidades.
+Sistema de gerenciamento de leads, grupos e campanhas com `Node.js`, `Express`, `TypeScript`, `Prisma ORM` e `PostgreSQL`. O backend e o frontend estatico sao servidos pela mesma aplicacao.
 
 ## Funcionalidades
 
-- **Gerenciamento de Leads**: Criação, listagem, atualização e remoção de leads.
-- **Gerenciamento de Grupos**: Criação de grupos e associação de leads a grupos.
-- **Gerenciamento de Campanhas**: Criação de campanhas, definição de datas e status.
-- **Associação Leads-Campanhas**: Gerenciamento do status de leads dentro de campanhas (New, Contacted, Converted, etc.).
-- **Dashboard Web**: Interface gráfica amigável para gerenciar todos os recursos.
+- Cadastro, listagem, edicao e remocao de leads
+- Cadastro e gerenciamento de grupos
+- Associacao de leads a grupos
+- Cadastro e gerenciamento de campanhas
+- Associacao de leads a campanhas com status por campanha
+- Dashboard web servido em `/`
 
-## Tecnologias Utilizadas
+## Tecnologias
 
-- **Backend**: Node.js, Express, TypeScript
-- **Banco de Dados**: PostgreSQL, Prisma ORM
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla), Bootstrap 5
-- **Validação**: Zod
+- Backend: `Node.js`, `Express`, `TypeScript`
+- Banco: `PostgreSQL`
+- ORM: `Prisma`
+- Frontend: `HTML`, `CSS`, `JavaScript`
+- Validacao: `Zod`
 
-## Pré-requisitos
+## Variaveis de Ambiente
 
-- Node.js (v14 ou superior)
-- PostgreSQL
-- Gerenciador de pacotes (npm ou yarn)
+Copie o arquivo `.env.example` para `.env` e ajuste os valores:
 
-## Instalação e Configuração
+```env
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco?schema=public"
+PORT=3000
+```
 
-1.  **Clone o repositório** (se aplicável).
-2.  **Instale as dependências**:
-    ```bash
-    npm install
-    ```
-3.  **Configure o banco de dados**:
-    -   Certifique-se de que o PostgreSQL está rodando.
-    -   Verifique o arquivo `.env` e ajuste a `DATABASE_URL` se necessário.
-    ```env
-    DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco?schema=public"
-    ```
-4.  **Execute as migrações do Prisma**:
-    ```bash
-    npx prisma migrate dev
-    ```
+- `DATABASE_URL`: obrigatoria para conectar no PostgreSQL
+- `PORT`: opcional; em deploy a plataforma normalmente injeta esse valor
 
-## Executando o Projeto
+## Desenvolvimento Local
 
-Para iniciar o servidor de desenvolvimento:
+1. Instale as dependencias:
+
+```bash
+npm install
+```
+
+2. Rode as migracoes em ambiente local:
+
+```bash
+npm run migrate:deploy
+```
+
+3. Inicie em modo desenvolvimento:
 
 ```bash
 npm run dev
 ```
 
-O servidor iniciará em `http://localhost:3000`.
+4. Acesse:
 
-## Acessando a Interface Web
+```text
+http://localhost:3000
+```
 
-Após iniciar o servidor, abra seu navegador e acesse:
+## Scripts
 
-**[http://localhost:3000](http://localhost:3000)**
+- `npm run dev`: inicia o servidor em modo desenvolvimento
+- `npm run build`: gera o client do Prisma e compila o TypeScript
+- `npm run start`: inicia a aplicacao compilada
+- `npm run migrate:deploy`: aplica migracoes pendentes no banco
+- `npm run start:prod`: aplica migracoes e inicia a aplicacao
 
-Você verá o painel de controle onde poderá gerenciar seus leads, grupos e campanhas.
+## Deploy
 
-## Endpoints da API
+### Checklist
 
-A API está disponível em `/api`. Alguns exemplos:
+- Configurar `DATABASE_URL`
+- Rodar `npm install`
+- Rodar `npm run build`
+- Rodar `npm run migrate:deploy`
 
--   `GET /api/leads`: Listar leads
--   `POST /api/leads`: Criar lead
--   `GET /api/groups`: Listar grupos
--   `GET /api/campaigns`: Listar campanhas
+### Comandos Recomendados
 
-## Estrutura do Projeto
+Build command:
 
--   `src/`: Código fonte do backend
--   `prisma/`: Esquema do banco de dados e migrações
--   `public/`: Arquivos estáticos do frontend
+```bash
+npm install && npm run build
+```
+
+Start command:
+
+```bash
+npm run start:prod
+```
+
+### Deploy na Vercel
+
+Este projeto pode ser publicado na Vercel usando o `src/server.ts` como entrada principal do Express. O arquivo `src/serverless.ts` pode continuar sendo usado para provedores que exigem um handler serverless explicito, mas na Vercel a entrada principal recomendada e o proprio `Express`.
+
+Arquivos usados:
+
+- `src/server.ts`: entrada do Express na Vercel
+- `vercel.json`: configuracao minima de build
+- `public/`: arquivos estaticos servidos pela Vercel CDN
+
+Passos:
+
+1. Suba o projeto para um repositorio Git
+2. Importe o repositorio na Vercel
+3. Configure a variavel `DATABASE_URL`
+4. Deixe o build command como:
+
+```bash
+npm run build
+```
+
+5. Nao configure start command; a Vercel executa a funcao automaticamente
+6. Rode `npm run migrate:deploy` fora da Vercel quando precisar aplicar migracoes no banco
+
+Observacoes importantes:
+
+- A Vercel ignora `express.static()`; os arquivos da pasta `public/` sao servidos diretamente pela plataforma
+- `PORT` nao precisa ser configurada na Vercel
+- `NODE_ENV` e gerenciada pela propria Vercel
+- Se voce usar Vercel Postgres, basta copiar a connection string para `DATABASE_URL`
+
+### Variaveis de Ambiente na Vercel
+
+- `DATABASE_URL`: obrigatoria, connection string do PostgreSQL usado pelo Prisma
+- `PORT`: nao precisa configurar na Vercel
+
+Exemplo:
+
+```env
+DATABASE_URL="postgresql://usuario:senha@host:5432/nome_do_banco?schema=public"
+```
+
+## Estrutura
+
+- `src/`: codigo fonte da aplicacao
+- `database/`: inicializacao do Prisma Client
+- `prisma/`: schema e migracoes
+- `public/`: frontend estatico
+
+## Endpoints Principais
+
+- `GET /api/leads`
+- `POST /api/leads`
+- `GET /api/groups`
+- `POST /api/groups`
+- `GET /api/campaigns`
+- `POST /api/campaigns`

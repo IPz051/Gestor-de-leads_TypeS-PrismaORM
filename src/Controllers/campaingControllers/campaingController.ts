@@ -6,7 +6,11 @@ import type { Prisma } from "@prisma/client";
 export class CampaignController {
     index: Handler = async (_req, res, next) => {
         try {
-            const campaigns = await prisma.campaign.findMany()
+            const campaigns = await prisma.campaign.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             res.json(campaigns)
         } catch (err) {
             next(err)
