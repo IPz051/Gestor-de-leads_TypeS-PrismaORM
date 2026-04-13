@@ -1,6 +1,4 @@
-import { Lead } from "@prisma/client";
-import { $Enums } from "../generated/prisma/browser";
-import { LeadUpdateInput } from "../generated/prisma/models";
+import { type Lead, type LeadStatus, type Prisma } from "@prisma/client";
 
 
 export interface leadWhereParams {
@@ -9,7 +7,7 @@ export interface leadWhereParams {
   equals?: string
   mode?: "insensitive" | "default"
 }
-  status?: $Enums.LeadStatus
+  status?: LeadStatus
 }
 
 export interface findLeadsParams {
@@ -24,7 +22,7 @@ export interface LeadCreateInput {
   name: string
   email: string
   phone?: string
-  status?: $Enums.LeadStatus
+  status?: LeadStatus
 }
 
 export interface leadsRepository {
@@ -32,6 +30,6 @@ export interface leadsRepository {
   count: (params: leadWhereParams) => Promise<number>
   create: (data: LeadCreateInput) => Promise<Lead>
   findById: (id: number) => Promise<Lead | null>
-  updateById: (id: number, data: LeadUpdateInput) => Promise<Lead>
+  updateById: (id: number, data: Prisma.LeadUpdateInput) => Promise<Lead>
   deleteById: (id: number) => Promise<Lead>
 }
